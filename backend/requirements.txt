@@ -7,15 +7,8 @@ pillow==10.4.0
 numpy==1.26.4
 scikit-learn==1.5.1
 opencv-python-headless==4.10.0.84
-anthropic==0.34.2
 python-dotenv==1.0.1
 webcolors==24.8.0
-
-# Optional, higher-accuracy vision backend (zero-shot garment/style classification).
-# Falls back automatically to the built-in heuristic engine if these are not
-# installed or the pretrained weights cannot be downloaded (e.g. offline env).
-transformers==4.44.2
-torch==2.4.1
 
 sqlalchemy==2.0.30
 aiosqlite==0.20.0

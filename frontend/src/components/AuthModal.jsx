@@ -88,8 +88,9 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
           </h3>
           <p className="text-xs text-ink/60">
             {isRegister
-              ? 'Save your outfit style history and AI styling reports.'
+              ? 'Save your outfit style history and fashion reports.'
               : 'Sign in to access your saved outfit style history.'}
+
           </p>
         </div>
 

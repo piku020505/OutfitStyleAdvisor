@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import get_optional_current_user
 from app.db import get_db, init_db
-from app.llm.stylist import generate_style_report
+from app.stylist import generate_style_report
 from app.models import OutfitAnalysis, User
 from app.routers import auth, history
 from app.schemas import AnalyzeResponse, ColorOut, StyleReportOut
@@ -39,10 +39,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Outfit Style Advisor API",
-    description="Upload an outfit photo to receive vision analysis, AI styling guidance, JWT authentication, and user history persistence.",
+    description="Upload an outfit photo to receive handcrafted rule-based styling guidance, color theory analysis, JWT authentication, and user history persistence.",
     version="2.0.0",
     lifespan=lifespan,
 )
+
 
 app.add_middleware(
     CORSMiddleware,

@@ -137,18 +137,19 @@ export default function App() {
             </div>
             <div>
               <h1 className="font-display text-xl text-ink font-bold tracking-tight">Outfit Style Advisor</h1>
-              <p className="text-xs text-ink/60">Enterprise AI Outfit Analysis & Styling Platform</p>
+              <p className="text-xs text-ink/60">Manual Outfit Styling & Color Harmony Advisor</p>
             </div>
           </div>
 
-          {/* Right Action Bar: Vision AI badge & Auth controls */}
+          {/* Right Action Bar: Style engine badge & Auth controls */}
           <div className="flex items-center gap-3">
             {backendHealth && (
               <div className="hidden lg:flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs text-emerald-700">
                 <CheckCircle2 size={13} className="text-emerald-600" />
-                <span>AI API: <strong className="font-semibold">{backendHealth.vision_backend}</strong></span>
+                <span>Style Engine: <strong className="font-semibold">{backendHealth.vision_backend}</strong></span>
               </div>
             )}
+
 
             {user ? (
               <div className="flex items-center gap-2">
@@ -206,7 +207,7 @@ export default function App() {
             >
               {loading ? (
                 <>
-                  <Loader2 size={18} className="animate-spin text-accent" /> Running AI Analysis...
+                  <Loader2 size={18} className="animate-spin text-accent" /> Analyzing Outfit...
                 </>
               ) : (
                 <>
@@ -225,7 +226,7 @@ export default function App() {
             {result && <ColorPalette colors={result.dominant_colors} />}
           </section>
 
-          {/* Right Column: AI Style Report & Next Style Generator */}
+          {/* Right Column: Style Report & Next Style Generator */}
           <section className="bg-white rounded-2xl border border-ink/10 p-8 shadow-sm">
             {result ? (
               <StyleReport result={result} />
@@ -233,10 +234,11 @@ export default function App() {
               <div className="h-full flex flex-col items-center justify-center text-center text-ink/40 gap-3 py-24">
                 <Shirt size={40} className="animate-bounce text-ink/20" />
                 <p className="text-sm">
-                  Click <strong className="text-accent font-semibold">Next Outfit Style</strong> above or upload a photo<br />to see your live AI style report & next outfit recommendations.
+                  Click <strong className="text-accent font-semibold">Next Outfit Style</strong> above or upload a photo<br />to see your live style report & next outfit recommendations.
                 </p>
               </div>
             )}
+
           </section>
         </div>
       </main>

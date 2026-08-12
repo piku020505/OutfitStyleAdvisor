@@ -63,9 +63,11 @@ def test_analyze_rejects_corrupt_image(client):
 
 
 def test_auth_and_history_flow(client):
+    import uuid
+    unique_email = f"engineer.{uuid.uuid4().hex[:6]}@example.com"
     # 1. Register User
     reg_payload = {
-        "email": "engineer.test@example.com",
+        "email": unique_email,
         "password": "SecurePassword123!",
         "full_name": "Senior Software Engineer",
     }
@@ -80,7 +82,7 @@ def test_auth_and_history_flow(client):
     me_resp = client.get("/api/auth/me", headers=headers)
     assert me_resp.status_code == 200
     user_info = me_resp.json()
-    assert user_info["email"] == "engineer.test@example.com"
+    assert user_info["email"] == unique_email
 
     # 3. Analyze outfit with auth header (auto saves to history)
     img_bytes = _sample_image_bytes()

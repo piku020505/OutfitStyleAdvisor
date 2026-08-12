@@ -1,14 +1,12 @@
 <div align="center">
 
-# 👗 Outfit Style Advisor — Enterprise AI Platform
+# 👗 Outfit Style Advisor — Manual Outfit Styling & Color Advisor
 
-### *Vision-Powered Outfit Analysis, K-Means Color Theory & Grounded AI Next Style Recommendations*
+### *Deterministic Image Analysis, K-Means Color Theory & Handcrafted Fashion Recommendations*
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.4-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0_Async-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://sqlalchemy.org)
 [![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
@@ -29,8 +27,8 @@
 
 ## 📸 Application Showcase
 
-### 1. 🧥 Live Outfit Showcase & Vision AI Dashboard
-> Real-time garment classification using HuggingFace **CLIP zero-shot**, Scikit-Learn **K-Means dominant color extraction**, and AI-generated style analysis.
+### 1. 🧥 Live Outfit Showcase & Style Dashboard
+> Real-time garment feature extraction, Scikit-Learn **K-Means dominant color extraction**, and handcrafted fashion analysis.
 
 <div align="center">
   <img src="assets/dashboard_showcase.png" alt="Outfit Style Advisor Dashboard" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);" />
@@ -39,7 +37,7 @@
 <br/>
 
 ### 2. ✨ Next Outfit Style Variations & Evolution Studio
-> Interactive **"What to Wear Next"** recommendation engine providing 4 grounded outfit transition concepts with color harmony swatches and key garment pairing suggestions.
+> Interactive **"What to Wear Next"** recommendation engine providing 4 structured outfit transition concepts with color harmony swatches and key garment pairing suggestions.
 
 <div align="center">
   <img src="assets/next_style_modal.png" alt="Next Outfit Style Modal Preview" width="85%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);" />
@@ -58,9 +56,9 @@
 
 ## 🌟 Key Features
 
-- 👁️ **Swappable Computer Vision Engine**: Primary zero-shot CLIP classification (`openai/clip-vit-base-patch32`) paired with an offline edge-density heuristic engine fallback for air-gapped or CI environments.
+- 📐 **Manual Feature Classification Engine**: Classical image processing heuristics (aspect ratio geometry, Sobel edge density metrics, and color variance histograms) for fast, lightweight garment and pattern tagging.
 - 🎨 **K-Means Color Theory Processor**: Uses Scikit-Learn k-means clustering over RGB pixel arrays to compute dominant color distributions and map them to curated fashion palettes.
-- ✨ **Grounded LLM Style Generator**: Integrates Anthropic Claude API / rule-based fashion engine to generate structured styling reports strictly grounded in detected attributes.
+- 👗 **Handcrafted Fashion Recommendation Engine**: Custom fashion rule matrix generating structured styling reports strictly grounded in detected garment attributes.
 - ⏭️ **"What to Wear Next" Evolution Engine**: Generates 4 tailored outfit transition variations (*Evening Glamour*, *Urban Streetwear*, *Monochrome Minimalist*, *Resort Warm-Toned*).
 - 🔒 **Enterprise JWT Authentication**: Full user signup & login flow using `passlib` bcrypt hashing and signed JWT bearer tokens (`/api/auth/register`, `/api/auth/login`, `/api/auth/me`).
 - 💾 **Async Database Layer**: Built on **SQLAlchemy 2.0 Async** (`aiosqlite` SQLite for local zero-config, `asyncpg` PostgreSQL for production database clusters).
@@ -85,18 +83,18 @@
                     |                                  |
                     v                                  v
 +------------------------------------+   +------------------------------------+
-|        Vision Pipeline Layer       |   |       Color Analyzer Engine        |
-|  - Primary: CLIP Zero-Shot (Torch) |   |  - Scikit-Learn K-Means (RGB)      |
-|  - Fallback: Heuristic Classifier  |   |  - Curated Palette Mapping         |
+|     Feature Classifier Layer       |   |       Color Analyzer Engine        |
+|  - Manual Feature Matrix (OpenCV)  |   |  - Scikit-Learn K-Means (RGB)      |
+|  - Aspect Ratio & Edge Density     |   |  - Curated Palette Mapping         |
 +------------------------------------+   +------------------------------------+
                     |                                  |
                     +----------------+-----------------+
                                      |
                                      v
                        +---------------------------+
-                       |   Gen AI Styling Layer    |
-                       |  - Anthropic Claude API   |
-                       |  - Grounded Prompting     |
+                       |  Fashion Styling Engine   |
+                       |  - Rule Analytics Matrix  |
+                       |  - Attribute Grounding    |
                        |  - Next Style Evolution   |
                        +---------------------------+
                                      |
@@ -122,9 +120,9 @@
 | **Backend API** | FastAPI 0.115, Pydantic v2, Python 3.12 |
 | **Database & ORM** | SQLAlchemy 2.0 Async, SQLite (`aiosqlite`), PostgreSQL (`asyncpg`) |
 | **Authentication** | OAuth2 Bearer, PyJWT, Passlib (`bcrypt`), Email-Validator |
-| **Vision & ML** | HuggingFace Transformers, PyTorch, OpenAI CLIP (`clip-vit-base-patch32`), Pillow, OpenCV |
+| **Image Processing** | Pillow, OpenCV (`opencv-python-headless`), NumPy |
 | **Color Processing** | Scikit-Learn K-Means Clustering, NumPy, Webcolors |
-| **Generative AI** | Anthropic Claude API (`claude-sonnet-4-6`), JSON-constrained Prompting |
+| **Fashion Recommendation** | Handcrafted Fashion Rule Engine & Palette Matching Matrix |
 | **Testing** | Pytest, FastAPI TestClient |
 | **DevOps & Cloud** | Docker, Docker Compose, GitHub Actions CI/CD, Render Spec |
 
@@ -135,7 +133,7 @@
 | Endpoint | Method | Auth Required | Description |
 |---|---|---|---|
 | `/` | `GET` | No | Service status and API version |
-| `/api/health` | `GET` | No | System health, vision backend, & DB status |
+| `/api/health` | `GET` | No | System health, style engine, & DB status |
 | `/api/auth/register` | `POST` | No | Register a new user account & return JWT token |
 | `/api/auth/login` | `POST` | No | Authenticate user credentials & return JWT token |
 | `/api/auth/me` | `GET` | Yes | Get authenticated user profile details |
