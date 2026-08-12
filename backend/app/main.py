@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, UnidentifiedImageError
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import get_optional_current_user
@@ -68,13 +69,14 @@ def root():
 
 
 @app.get("/api/health")
-def health():
+async def health(db: AsyncSession = Depends(get_db)):
     classifier = get_classifier()
-    return {
-        "status": "ok",
-        "vision_backend": classifier.name,
-        "database": "sqlite/asyncpg connected",
-    }
+    try:
+        await db.execute(text("SELECT 1"))
+        db_status = "connected"
+    except Exception:
+        db_status = "unavailable"
+    return {"status": "ok", "vision_backend": classifier.name, "database": db_status}
 
 
 @app.post("/api/analyze", response_model=AnalyzeResponse)
