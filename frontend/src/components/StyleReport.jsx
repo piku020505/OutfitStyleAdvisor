@@ -3,27 +3,57 @@ import NextOutfitStyleSection from './NextOutfitStyleSection.jsx'
 
 function Tag({ children }) {
   return (
-    <span className="inline-block rounded-full bg-ink/5 px-3 py-1 text-xs font-medium text-ink/70 capitalize">
+    <span className="inline-block rounded-full bg-surface-elevated border border-border px-3 py-1 text-xs font-mono font-medium text-paper capitalize">
       {children}
     </span>
   )
 }
 
-export default function StyleReport({ result }) {
+export default function StyleReport({ result, onHoverColor }) {
   if (!result) return null
-  const { garment_type, pattern, style, style_report, vision_backend, garment_confidence } = result
+  const { garment_type, pattern, style, style_report, vision_backend, garment_confidence, dominant_colors } = result
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="flex items-center gap-2 text-accent mb-1">
-          <Sparkles size={16} />
-          <span className="text-xs font-semibold uppercase tracking-wide">Outfit Styling Report</span>
-
+      {/* Signature Element: Load-Bearing Pinned Palette Strip */}
+      {dominant_colors && dominant_colors.length > 0 && (
+        <div className="relative group">
+          <div className="flex h-2.5 w-full overflow-hidden rounded-full border border-border/80 bg-surface-elevated animate-swatch-reveal">
+            {dominant_colors.map((c, idx) => (
+              <div
+                key={c.hex + idx}
+                onMouseEnter={() => onHoverColor?.(c.hex)}
+                onMouseLeave={() => onHoverColor?.(null)}
+                style={{
+                  width: `${Math.max(c.weight * 100, 8)}%`,
+                  backgroundColor: c.hex,
+                }}
+                className="h-full cursor-pointer hover:brightness-125 transition-all duration-150"
+                title={`Hover to tint UI with ${c.name} (${c.hex} · ${Math.round(c.weight * 100)}%)`}
+              />
+            ))}
+          </div>
+          <div className="flex items-center justify-between text-[10px] text-muted-dark font-mono mt-1 px-0.5">
+            <span>EXTRACTED PALETTE STRIP</span>
+            <span>HOVER SWATCH TO TINT UI</span>
+          </div>
         </div>
-        <h2 className="font-display text-2xl text-ink leading-snug">{style_report.headline}</h2>
+      )}
+
+      {/* Header */}
+      <div>
+        <div className="flex items-center gap-2 text-dynamic-accent mb-1.5">
+          <Sparkles size={16} />
+          <span className="font-display tracking-wider uppercase text-xs font-semibold">
+            Outfit Styling Report
+          </span>
+        </div>
+        <h2 className="font-display text-2xl text-paper leading-snug font-bold">
+          {style_report.headline}
+        </h2>
       </div>
 
+      {/* Attribute Tags */}
       <div className="flex flex-wrap gap-2">
         <Tag>{garment_type}</Tag>
         <Tag>{pattern}</Tag>
@@ -31,50 +61,53 @@ export default function StyleReport({ result }) {
         <Tag>{Math.round(garment_confidence * 100)}% confidence</Tag>
       </div>
 
-      <p className="text-ink/75 leading-relaxed">{style_report.analysis}</p>
+      {/* Analysis text */}
+      <p className="text-paper/85 leading-relaxed text-sm">{style_report.analysis}</p>
 
+      {/* Best Occasions */}
       <div>
-        <h3 className="flex items-center gap-2 font-display text-lg text-ink mb-2">
-          <MapPin size={16} className="text-accent" /> Best Occasions
+        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-semibold text-muted mb-2.5">
+          <MapPin size={14} className="text-dynamic-accent" /> Best Occasions
         </h3>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {style_report.occasions.map((o) => (
-            <li key={o} className="text-sm text-ink/70 flex items-start gap-2">
-              <span className="mt-1.5 h-1 w-1 rounded-full bg-accent shrink-0" />
+            <li key={o} className="text-sm text-paper/80 flex items-start gap-2.5">
+              <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-dynamic-accent shrink-0" />
               {o}
             </li>
           ))}
         </ul>
       </div>
 
+      {/* Pairing Suggestions */}
       <div>
-        <h3 className="flex items-center gap-2 font-display text-lg text-ink mb-2">
-          <Shuffle size={16} className="text-accent" /> Pairing Suggestions
+        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-semibold text-muted mb-2.5">
+          <Shuffle size={14} className="text-dynamic-accent" /> Key Styling & Pairing Rules
         </h3>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {style_report.pairing_suggestions.map((p) => (
-            <li key={p} className="text-sm text-ink/70 flex items-start gap-2">
-              <span className="mt-1.5 h-1 w-1 rounded-full bg-accent shrink-0" />
+            <li key={p} className="text-sm text-paper/80 flex items-start gap-2.5">
+              <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-dynamic-accent shrink-0" />
               {p}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="rounded-xl bg-accent/5 border border-accent/15 p-4">
-        <h3 className="flex items-center gap-2 text-sm font-semibold text-accent mb-1">
-          <Palette size={14} /> Color Tip
+      {/* Color Tip Box */}
+      <div className="rounded-xl bg-surface-elevated border-l-4 border-dynamic-accent border-r border-t border-b border-border p-4">
+        <h3 className="flex items-center gap-2 text-xs font-semibold text-dynamic-accent uppercase tracking-wider mb-1">
+          <Palette size={14} /> Color Harmony Guidance
         </h3>
-        <p className="text-sm text-ink/70">{style_report.color_tip}</p>
+        <p className="text-sm text-paper/80 leading-relaxed">{style_report.color_tip}</p>
       </div>
 
       {/* Next Outfit Style Variations */}
-      <NextOutfitStyleSection nextStyles={style_report.next_outfit_styles} />
+      <NextOutfitStyleSection nextStyles={style_report.next_outfit_styles} onHoverColor={onHoverColor} />
 
-      <p className="text-[11px] text-ink/30 pt-2 border-t border-ink/10">
+      <p className="text-[11px] text-muted-dark pt-3 border-t border-border font-mono">
         Analysis engine: {vision_backend} · Report generated by: {style_report.generated_by}
       </p>
     </div>
   )
 }
-

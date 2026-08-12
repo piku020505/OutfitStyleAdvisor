@@ -1,19 +1,36 @@
-export default function ColorPalette({ colors }) {
+export default function ColorPalette({ colors, onHoverColor }) {
   if (!colors || colors.length === 0) return null
 
   return (
-    <div>
-      <h3 className="font-display text-lg text-ink mb-3">Dominant Palette</h3>
-      <div className="flex gap-3 flex-wrap">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display tracking-wider uppercase text-xs font-semibold text-muted">
+          Extracted Dominant Palette
+        </h3>
+        <span className="text-[11px] text-muted-dark font-mono">Scikit-Learn K-Means (RGB)</span>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {colors.map((c) => (
-          <div key={c.hex} className="flex flex-col items-center gap-1.5">
+          <div
+            key={c.hex}
+            onMouseEnter={() => onHoverColor?.(c.hex)}
+            onMouseLeave={() => onHoverColor?.(null)}
+            className="group relative flex flex-col items-center gap-2 rounded-xl bg-surface border border-border p-3 transition-all duration-200 hover:border-dynamic-accent hover:bg-surface-elevated cursor-pointer"
+            title={`Click or hover to tint UI with ${c.name} (${c.hex})`}
+          >
             <div
-              className="h-14 w-14 rounded-full border border-black/10 shadow-sm"
+              className="h-10 w-10 rounded-full border border-white/10 shadow-inner group-hover:scale-105 transition-transform duration-200"
               style={{ backgroundColor: c.hex }}
-              title={`${c.name} · ${c.hex}`}
             />
-            <span className="text-xs text-ink/60 capitalize">{c.name}</span>
-            <span className="text-[10px] text-ink/35">{Math.round(c.weight * 100)}%</span>
+            <div className="text-center">
+              <p className="text-xs font-medium text-paper capitalize leading-none mb-1">{c.name}</p>
+              <div className="flex items-center justify-center gap-1 text-[10px] text-muted font-mono">
+                <span>{c.hex}</span>
+                <span>·</span>
+                <span className="text-paper font-semibold">{Math.round(c.weight * 100)}%</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>

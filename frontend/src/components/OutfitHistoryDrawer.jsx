@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, History, Trash2, ArrowUpRight, Shirt, Loader2, Sparkles } from 'lucide-react'
+import { X, History, Trash2, Shirt, Loader2, Sparkles } from 'lucide-react'
 
 const API_BASE = 'http://localhost:8000/api'
 
@@ -30,7 +30,6 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
     } finally {
       setLoading(false)
     }
-
   }
 
   async function handleDelete(id, e) {
@@ -53,17 +52,17 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-end">
-      <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end">
+      <div className="relative w-full max-w-full sm:max-w-md bg-surface border-l border-border h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
         {/* Drawer Header */}
-        <div className="p-5 border-b border-ink/10 flex items-center justify-between bg-paper">
-          <div className="flex items-center gap-2 text-ink font-semibold font-display text-lg">
-            <History size={20} className="text-accent" />
+        <div className="p-5 border-b border-border flex items-center justify-between bg-surface-elevated">
+          <div className="flex items-center gap-2 text-paper font-semibold font-display text-lg">
+            <History size={20} className="text-dynamic-accent" />
             <span>Saved Outfit History</span>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-ink/40 hover:bg-ink/5 hover:text-ink transition"
+            className="rounded-full p-1 text-muted hover:bg-surface hover:text-paper transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
           >
             <X size={20} />
           </button>
@@ -72,16 +71,21 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-64 text-ink/40 gap-2">
-              <Loader2 size={24} className="animate-spin text-accent" />
-              <p className="text-xs font-medium">Fetching saved analyses...</p>
+            <div className="flex flex-col items-center justify-center h-64 text-muted gap-2">
+              <Loader2 size={24} className="animate-spin text-dynamic-accent" />
+              <p className="text-xs font-mono">Fetching saved analyses...</p>
             </div>
           ) : error ? (
-            <div className="text-center py-10 text-red-600 text-xs">{error}</div>
+            <div className="text-center py-10 text-red-400 text-xs">{error}</div>
           ) : historyItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-center text-ink/40 gap-2">
-              <Shirt size={32} />
-              <p className="text-xs">No saved outfit analyses yet.<br />Upload photos while logged in to auto-save history!</p>
+            <div className="flex flex-col items-center justify-center h-64 text-center text-muted gap-3">
+              <div className="rounded-full bg-surface-elevated p-4 text-muted-dark border border-border">
+                <Shirt size={32} />
+              </div>
+              <p className="text-sm font-semibold text-paper">No outfits analyzed yet</p>
+              <p className="text-xs text-muted-dark max-w-xs leading-relaxed">
+                Upload an outfit photo or select a canvas preset to create and save your first styling report.
+              </p>
             </div>
           ) : (
             historyItems.map((item) => (
@@ -91,63 +95,48 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
                   onSelectHistoryItem(item)
                   onClose()
                 }}
-                className="group relative rounded-xl border border-ink/10 p-4 bg-white hover:border-accent/40 hover:shadow-md transition cursor-pointer space-y-2.5"
+                className="group relative rounded-xl border border-border bg-surface-elevated p-4 hover:border-dynamic-accent hover:bg-surface-card transition cursor-pointer space-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
+                tabIndex={0}
+                role="button"
               >
-                <div className="flex items-center justify-between text-xs text-ink/50">
-                  <span className="font-mono text-[11px]">
-                    {new Date(item.created_at).toLocaleDateString(undefined, {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold tracking-wider uppercase bg-dynamic-accent/15 text-dynamic-accent px-2 py-0.5 rounded border border-dynamic-accent/20">
+                    {item.style} · {item.garment_type}
                   </span>
-                  <button
-                    onClick={(e) => handleDelete(item.id, e)}
-                    disabled={deletingId === item.id}
-                    title="Delete entry"
-                    className="text-ink/30 hover:text-red-600 p-1 transition"
-                  >
-                    {deletingId === item.id ? (
-                      <Loader2 size={13} className="animate-spin" />
-                    ) : (
-                      <Trash2 size={13} />
-                    )}
-                  </button>
+                  <span className="text-[10px] text-muted-dark font-mono">
+                    {new Date(item.created_at).toLocaleDateString()}
+                  </span>
                 </div>
 
-                <h4 className="font-display text-sm font-semibold text-ink group-hover:text-accent transition line-clamp-1">
+                <h4 className="text-sm font-semibold text-paper group-hover:text-dynamic-accent transition">
                   {item.style_report?.headline || `${item.style} ${item.garment_type}`}
                 </h4>
 
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="rounded-full bg-ink/5 px-2 py-0.5 text-[10px] font-medium text-ink/70 capitalize">
-                    {item.garment_type}
-                  </span>
-                  <span className="rounded-full bg-ink/5 px-2 py-0.5 text-[10px] font-medium text-ink/70 capitalize">
-                    {item.style}
-                  </span>
-                  <span className="rounded-full bg-accent/10 text-accent px-2 py-0.5 text-[10px] font-semibold">
-                    {Math.round(item.garment_confidence * 100)}% Match
-                  </span>
-                </div>
-
-                {/* Color Swatches */}
-                <div className="flex items-center justify-between pt-2 border-t border-ink/10">
+                {/* Dominant Palette Swatches */}
+                <div className="flex items-center justify-between pt-2 border-t border-border/60">
                   <div className="flex items-center gap-1.5">
-                    {item.dominant_colors?.map((c, i) => (
+                    {item.dominant_colors?.map((c) => (
                       <span
-                        key={i}
-                        className="h-3.5 w-3.5 rounded-full border border-black/10 shrink-0"
+                        key={c.hex}
+                        className="h-3.5 w-3.5 rounded-full border border-white/20"
                         style={{ backgroundColor: c.hex }}
+                        title={`${c.name} (${c.hex})`}
                       />
                     ))}
                   </div>
 
-                  <span className="text-xs font-semibold text-accent flex items-center gap-1">
-                    Load Report <ArrowUpRight size={13} />
-                  </span>
+                  <button
+                    onClick={(e) => handleDelete(item.id, e)}
+                    disabled={deletingId === item.id}
+                    title="Delete Saved Outfit"
+                    className="text-muted-dark hover:text-red-400 p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 rounded"
+                  >
+                    {deletingId === item.id ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <Trash2 size={14} />
+                    )}
+                  </button>
                 </div>
               </div>
             ))

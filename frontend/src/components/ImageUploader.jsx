@@ -12,8 +12,20 @@ export default function ImageUploader({ onFileSelected, previewUrl, disabled }) 
     [onFileSelected]
   )
 
+  const handleKeyDown = (e) => {
+    if (disabled) return
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      inputRef.current?.click()
+    }
+  }
+
   return (
     <div
+      tabIndex={disabled ? -1 : 0}
+      role="button"
+      aria-label="Upload outfit photo"
+      onKeyDown={handleKeyDown}
       onDragOver={(e) => {
         e.preventDefault()
         setIsDragging(true)
@@ -25,10 +37,11 @@ export default function ImageUploader({ onFileSelected, previewUrl, disabled }) 
         handleFiles(e.dataTransfer.files)
       }}
       onClick={() => !disabled && inputRef.current?.click()}
-      className={`relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-colors cursor-pointer overflow-hidden
-        ${isDragging ? 'border-accent bg-accent/5' : 'border-ink/20 bg-white'}
-        ${disabled ? 'opacity-60 cursor-not-allowed' : 'hover:border-accent'}
-        h-80`}
+      className={`relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all duration-200 cursor-pointer overflow-hidden
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:ring-dynamic-accent
+        ${isDragging ? 'border-dynamic-accent bg-surface-elevated scale-[1.01]' : 'border-border bg-surface hover:border-dynamic-accent/60 hover:bg-surface-elevated'}
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+        h-80 shadow-lg`}
     >
       <input
         ref={inputRef}
@@ -39,15 +52,20 @@ export default function ImageUploader({ onFileSelected, previewUrl, disabled }) 
         onChange={(e) => handleFiles(e.target.files)}
       />
       {previewUrl ? (
-        <img src={previewUrl} alt="Outfit preview" className="h-full w-full object-cover" />
+        <div className="relative w-full h-full group">
+          <img src={previewUrl} alt="Outfit preview" className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-paper text-xs font-semibold">
+            <Upload size={16} /> Click or drop to replace photo
+          </div>
+        </div>
       ) : (
-        <div className="flex flex-col items-center gap-3 text-ink/50 px-6 text-center">
-          <div className="rounded-full bg-ink/5 p-4">
+        <div className="flex flex-col items-center gap-3 text-muted px-6 text-center">
+          <div className="rounded-full bg-surface-elevated border border-border p-4 text-dynamic-accent shadow-inner">
             <Upload size={28} />
           </div>
-          <p className="font-medium text-ink/70">Drop an outfit photo here</p>
-          <p className="text-sm flex items-center gap-1">
-            <ImageIcon size={14} /> or click to browse (JPEG, PNG, WEBP)
+          <p className="font-semibold text-paper text-sm">Drop an outfit photo here</p>
+          <p className="text-xs text-muted-dark flex items-center gap-1.5 font-mono">
+            <ImageIcon size={13} /> or click / press space to browse (JPEG, PNG, WEBP)
           </p>
         </div>
       )}

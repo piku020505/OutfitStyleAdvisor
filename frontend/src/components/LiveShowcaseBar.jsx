@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SkipForward, SkipBack, Play, Pause, Shuffle, Sparkles, Shirt } from 'lucide-react'
+import { SkipForward, SkipBack, Play, Pause, Shuffle, Shirt } from 'lucide-react'
 import { SAMPLE_OUTFITS } from '../utils/sampleGenerator'
 
 export default function LiveShowcaseBar({
@@ -54,117 +54,110 @@ export default function LiveShowcaseBar({
   }, [isPlaying, currentIndex])
 
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm space-y-4">
-      {/* Header & Main Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-ink/10">
+    <div className="rounded-2xl border border-border bg-surface p-5 shadow-lg space-y-4">
+      {/* Header & Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="rounded-lg bg-accent/10 p-2 text-accent">
-            <Sparkles size={18} className="animate-pulse" />
-          </div>
-          <div>
-            <h2 className="font-display text-lg text-ink font-semibold flex items-center gap-2">
-              Live Outfit Showcase & Next Style Stream
-            </h2>
-            <p className="text-xs text-ink/60">
-              Browse presets or click <span className="font-semibold text-accent">Next Outfit Style</span> to cycle instantly
-            </p>
-          </div>
+          <Shirt size={18} className="text-dynamic-accent" />
+          <h2 className="font-display tracking-wider uppercase text-xs font-semibold text-paper">
+            Live Outfit Canvas Presets & Rotation
+          </h2>
         </div>
 
-        {/* Live Controls */}
-        <div className="flex items-center gap-2">
+        {/* Controls */}
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handlePrev}
             disabled={loading}
-            title="Previous Style"
-            className="rounded-xl border border-ink/15 p-2.5 text-ink hover:bg-ink/5 disabled:opacity-40 transition"
+            title="Previous Outfit"
+            className="rounded-lg border border-border bg-surface-elevated p-2 text-paper hover:border-dynamic-accent hover:text-dynamic-accent transition disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
           >
-            <SkipBack size={16} />
+            <SkipBack size={15} />
+          </button>
+
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            disabled={loading}
+            title={isPlaying ? 'Pause Auto Stream' : 'Auto Stream Outfits (5s)'}
+            className={`rounded-lg border px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent ${
+              isPlaying
+                ? 'border-dynamic-accent bg-dynamic-accent text-canvas'
+                : 'border-border bg-surface-elevated text-paper hover:border-dynamic-accent'
+            }`}
+          >
+            {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+            <span>{isPlaying ? 'Pause Stream' : 'Auto Stream'}</span>
           </button>
 
           <button
             onClick={handleNext}
             disabled={loading}
-            className="rounded-xl bg-accent text-white px-4 py-2.5 text-xs font-semibold flex items-center gap-2 hover:opacity-90 transition shadow-sm"
+            title="Next Outfit"
+            className="rounded-lg border border-border bg-surface-elevated p-2 text-paper hover:border-dynamic-accent hover:text-dynamic-accent transition disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
           >
-            <SkipForward size={16} />
-            <span>Next Outfit Style</span>
-          </button>
-
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            title={isPlaying ? 'Pause Live Stream' : 'Play Live Showcase'}
-            className={`rounded-xl border p-2.5 transition flex items-center gap-1.5 text-xs font-medium ${
-              isPlaying
-                ? 'bg-emerald-500 border-emerald-600 text-white'
-                : 'border-ink/15 text-ink hover:bg-ink/5'
-            }`}
-          >
-            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-            <span className="hidden md:inline">{isPlaying ? 'Live Active' : 'Auto Stream'}</span>
+            <SkipForward size={15} />
           </button>
 
           <button
             onClick={handleRandom}
             disabled={loading}
             title="Random Outfit"
-            className="rounded-xl border border-ink/15 p-2.5 text-ink hover:bg-ink/5 disabled:opacity-40 transition"
+            className="rounded-lg border border-border bg-surface-elevated p-2 text-muted hover:border-dynamic-accent hover:text-paper transition disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
           >
-            <Shuffle size={16} />
+            <Shuffle size={15} />
           </button>
         </div>
       </div>
 
-      {/* Auto-Play Stream Progress Bar */}
+      {/* Auto-play progress bar */}
       {isPlaying && (
-        <div className="w-full bg-ink/10 rounded-full h-1.5 overflow-hidden">
+        <div className="h-1 w-full bg-surface-elevated rounded-full overflow-hidden">
           <div
-            className="bg-emerald-500 h-1.5 transition-all duration-75"
+            className="h-full bg-dynamic-accent transition-all duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>
       )}
 
-      {/* Preset Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 pt-1">
+      {/* Preset cards horizontal scroll */}
+      <div className="flex gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar sm:custom-scrollbar">
         {SAMPLE_OUTFITS.map((outfit) => {
-          const isSelected = currentOutfitId === outfit.id
+          const isSelected = outfit.id === currentOutfitId
           return (
             <button
               key={outfit.id}
               onClick={() => onSelectOutfit(outfit)}
               disabled={loading}
-              className={`group relative flex flex-col items-start p-3 rounded-xl border text-left transition-all overflow-hidden ${
-                isSelected
-                  ? 'border-accent bg-accent/5 ring-2 ring-accent/30 shadow-md'
-                  : 'border-ink/10 bg-paper/50 hover:border-ink/30 hover:bg-paper'
-              }`}
+              className={`group flex-shrink-0 relative rounded-xl border p-3 text-left transition-all duration-200 w-44 sm:w-48 flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent
+                ${
+                  isSelected
+                    ? 'border-dynamic-accent bg-surface-elevated ring-1 ring-dynamic-accent/40 shadow-md'
+                    : 'border-border bg-surface-elevated/50 hover:border-border-subtle hover:bg-surface-elevated'
+                }
+                ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {/* Color accent pill */}
-              <div className="flex items-center gap-1.5 mb-2 w-full">
-                <span
-                  className="h-3 w-3 rounded-full border border-black/10 shrink-0"
-                  style={{ backgroundColor: outfit.primaryColor }}
-                />
-                <span
-                  className="h-3 w-3 rounded-full border border-black/10 shrink-0"
-                  style={{ backgroundColor: outfit.secondaryColor }}
-                />
-                <span className="ml-auto text-[10px] uppercase font-semibold text-ink/40">
-                  {outfit.category}
-                </span>
+              <div>
+                <div className="flex items-center justify-between text-[10px] text-muted-dark font-mono mb-1">
+                  <span className="capitalize">{outfit.style}</span>
+                  {isSelected && (
+                    <span className="text-dynamic-accent font-bold">ACTIVE</span>
+                  )}
+                </div>
+                <h3 className="text-xs font-semibold text-paper line-clamp-1 group-hover:text-dynamic-accent transition-colors">
+                  {outfit.name}
+                </h3>
               </div>
 
-              <p className="font-medium text-xs text-ink line-clamp-1 group-hover:text-accent transition">
-                {outfit.name}
-              </p>
-              <p className="text-[11px] text-ink/50 line-clamp-1 mt-0.5">{outfit.description}</p>
-
-              {isSelected && (
-                <div className="absolute top-0 right-0 bg-accent text-white text-[9px] font-bold px-1.5 py-0.5 rounded-bl-lg">
-                  LIVE
-                </div>
-              )}
+              {/* Color Dot Swatches */}
+              <div className="flex items-center gap-1.5 mt-3 pt-2 border-t border-border/40">
+                {(outfit.palette || [outfit.primaryColor, outfit.secondaryColor, outfit.accentColor]).filter(Boolean).map((hex) => (
+                  <span
+                    key={hex}
+                    className="h-3 w-3 rounded-full border border-white/20 shrink-0"
+                    style={{ backgroundColor: hex }}
+                  />
+                ))}
+              </div>
             </button>
           )
         })}
