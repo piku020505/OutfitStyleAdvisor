@@ -1,159 +1,119 @@
-# Outfit Style Advisor
+# Outfit Style Advisor — Enterprise AI Platform
 
-Upload a photo of an outfit and get back a **structured garment/style analysis**
-plus an **AI-generated styling report**: best occasions to wear it, pairing
-suggestions, and color-theory tips — all grounded in what the vision pipeline
-actually detected in the photo.
+Upload a photo of an outfit or choose from live style presets to receive **structured computer-vision analysis**, **dominant color palette extraction**, **AI styling advice**, and **grounded "What to Wear Next" outfit evolution recommendations**.
 
-Built as a full-stack, deployable application (not a notebook demo): React
-frontend, FastAPI backend, a swappable computer-vision classification layer,
-and a Gen AI recommendation layer powered by the Claude API.
+Built as an **Enterprise-Grade Full-Stack AI Platform**: React frontend, FastAPI async backend, JWT Authentication, SQLAlchemy 2.0 async database persistence (SQLite/PostgreSQL), swappable computer vision layer (CLIP zero-shot + heuristic fallback), Docker containerization, and GitHub Actions CI/CD.
 
-## How it works
+---
 
-```
- Outfit photo
-      |
-      v
-+-------------------+       +----------------------+
-|  Vision pipeline   |       |  Color analyzer       |
-|  (CLIP zero-shot   | ----> |  (k-means clustering  |
-|   classification,  |       |   + fashion palette   |
-|   auto-fallback to |       |   name mapping)        |
-|   offline heuristic|       +----------------------+
-|   if no GPU/model) |
-+-------------------+
-      |
-      v
- garment type, pattern, style, dominant colors
-      |
-      v
-+---------------------------+
-|  Gen AI styling layer      |
-|  (Claude API, grounded     |
-|   prompt -- only reasons   |
-|   about detected attrs)    |
-+---------------------------+
-      |
-      v
- headline + analysis + occasions + pairing tips + color tip
-      |
-      v
-   React dashboard
-```
+## 🌟 Key Features & Architectural Capabilities
 
-## Tech stack
+- 🤖 **Swappable Vision Pipeline**: Primary zero-shot CLIP classifier (`openai/clip-vit-base-patch32`) with automatic offline heuristic fallback.
+- 🎨 **K-Means Color Theory Engine**: Extracts dominant RGB pixel clusters and maps them to fashion color names & hex values.
+- ✨ **Grounded AI Style Generator**: Anthropic Claude API / Rule-based engine producing structured style reports and **Next Outfit Style Variations**.
+- 🔒 **JWT Authentication & Passwords**: OAuth2 Bearer JWT token auth with `bcrypt` password hashing (`/api/auth/register`, `/api/auth/login`, `/api/auth/me`).
+- 💾 **Async Database Persistence**: SQLAlchemy 2.0 Async (`aiosqlite` SQLite local / `asyncpg` PostgreSQL) storing user accounts and analysis history.
+- 🗂 **Saved Outfit History Drawer**: Slide-over panel to review past saved outfit analyses, reload reports with 1-click, or delete entries.
+- ⏭ **Live Outfit Showcase & Next Style Stream**: Interactive carousel with **"Next Outfit Style"** button, **"Auto Stream"** timer mode, and sample canvas generators.
+- 🐳 **Docker Multi-Container Stack**: Complete `docker-compose.yml` orchestrating PostgreSQL, FastAPI, and React Vite.
+- 🔄 **Enterprise CI/CD Pipeline**: GitHub Actions workflow testing backend pytest suite, verifying frontend production build, and checking Docker builds.
+- ☁️ **Cloud Deployment Ready**: `render.yaml` specification for 1-click cloud deployments on Render/Railway/AWS.
 
-| Layer            | Technology |
-|-------------------|------------|
-| Frontend           | React 18, Vite, Tailwind CSS, lucide-react |
-| Backend            | FastAPI, Pydantic |
-| Vision (primary)   | CLIP (`openai/clip-vit-base-patch32`) zero-shot image/text classification via HuggingFace Transformers |
-| Vision (fallback)  | Offline heuristic classifier (edge density, aspect ratio, color variance) — keeps the app fully runnable with no model download, e.g. in CI or air-gapped environments |
-| Color analysis     | scikit-learn k-means clustering over pixel RGB values, mapped to a curated fashion color palette |
-| Gen AI              | Anthropic Claude API, JSON-constrained prompting grounded strictly in detected attributes |
-| Testing            | pytest, FastAPI TestClient (7 automated tests) |
-| Infra              | Docker, docker-compose, GitHub Actions CI |
+---
 
-## Why two vision backends?
+## 🏗 Tech Stack
 
-Zero-shot CLIP classification is the "real" production-grade approach — no
-labeled training data required, and it generalizes to garment types it's
-never explicitly seen. But it needs a ~600MB model download on first run.
-The app auto-detects whether `transformers`/`torch` and the pretrained
-weights are available and transparently falls back to a lightweight,
-dependency-free heuristic classifier if not — so the entire pipeline
-(upload → vision → LLM → UI) is always demoable, including offline.
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 18, Vite, Tailwind CSS, Lucide Icons |
+| **Backend Framework** | FastAPI (Python 3.12), Pydantic v2 |
+| **Database** | SQLAlchemy 2.0 Async, SQLite (`aiosqlite`), PostgreSQL (`asyncpg`) |
+| **Authentication** | OAuth2 Bearer, PyJWT, Passlib (`bcrypt`) |
+| **Vision (Primary)** | CLIP (`openai/clip-vit-base-patch32`) Zero-Shot Classification via HuggingFace Transformers |
+| **Vision (Fallback)** | Offline Heuristic Classifier (Edge Density, Aspect Ratio, Color Variance) |
+| **Color Analysis** | Scikit-Learn K-Means Clustering |
+| **Gen AI Styling** | Anthropic Claude API / Fashion Rule-Based Fallback Engine |
+| **Testing** | Pytest, FastAPI TestClient |
+| **DevOps & Infra** | Docker, Docker Compose, GitHub Actions CI/CD, Render Cloud Spec |
 
-The active backend is always shown in the UI footer and returned in the API
-response (`vision_backend` field), so it's never ambiguous which one
-produced a given result.
+---
 
-## Project structure
+## 📂 Project Structure
 
 ```
 OutfitStyleAdvisor/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py                  # FastAPI app & /api/analyze endpoint
-│   │   ├── schemas.py               # Pydantic response models
+│   │   ├── main.py               # FastAPI entry point & lifespan DB init
+│   │   ├── auth.py               # JWT encoding/decoding & security dependencies
+│   │   ├── db.py                 # Async SQLAlchemy 2.0 engine & sessionmaker
+│   │   ├── models.py             # User and OutfitAnalysis database models
+│   │   ├── schemas.py            # Pydantic v2 validation models
+│   │   ├── routers/
+│   │   │   ├── auth.py           # Register, Login, Me REST endpoints
+│   │   │   └── history.py        # Saved outfit history REST endpoints
 │   │   ├── vision/
-│   │   │   ├── garment_classifier.py  # CLIP zero-shot + heuristic fallback
-│   │   │   └── color_analyzer.py      # k-means dominant color extraction
+│   │   │   ├── garment_classifier.py
+│   │   │   └── color_analyzer.py
 │   │   └── llm/
-│   │       └── stylist.py           # Claude-powered style report generation
-│   ├── tests/                       # pytest suite (7 tests)
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── .env.example
+│   │       └── stylist.py        # AI style report & next style evolution
+│   ├── tests/                    # Pytest suite
+│   └── requirements.txt
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
-│   │   └── components/
-│   │       ├── ImageUploader.jsx
-│   │       ├── ColorPalette.jsx
-│   │       └── StyleReport.jsx
-│   ├── package.json
-│   └── Dockerfile
+│   │   ├── components/
+│   │   │   ├── AuthModal.jsx             # JWT Login & Registration Modal
+│   │   │   ├── OutfitHistoryDrawer.jsx   # Slide-over Saved History panel
+│   │   │   ├── LiveShowcaseBar.jsx       # Next Outfit Carousel Bar
+│   │   │   ├── NextOutfitStyleSection.jsx # Next Outfit Style Variations
+│   │   │   ├── ImageUploader.jsx
+│   │   │   ├── ColorPalette.jsx
+│   │   │   └── StyleReport.jsx
+│   │   └── utils/
+│   │       └── sampleGenerator.js        # Canvas outfit generator
+│   └── package.json
 ├── docker-compose.yml
-├── .github/workflows/ci.yml
-└── documentation/
-    └── resume_bullets.md
+├── render.yaml
+└── .github/workflows/ci.yml
 ```
 
-## Getting started
+---
 
-### Option A — Docker (recommended)
+## 🚀 Getting Started
+
+### Option A — Docker Compose (Recommended)
 
 ```bash
-cp backend/.env.example backend/.env   # add your ANTHROPIC_API_KEY (optional)
 docker-compose up --build
 ```
+- **Frontend Dashboard**: http://localhost:5173
+- **Backend Swagger Docs**: http://localhost:8000/docs
 
-- Frontend: http://localhost:5173
-- Backend docs: http://localhost:8000/docs
+### Option B — Run Locally
 
-### Option B — Run locally
-
-**Backend**
+**1. Backend**:
 ```bash
 cd backend
-python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env   # optional: add ANTHROPIC_API_KEY
+uv venv venv --python 3.12
+venv\Scripts\activate
+uv pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
-**Frontend**
+**2. Frontend**:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
 Then open http://localhost:5173.
 
-> Note: on first run with `transformers`/`torch` installed, the CLIP model
-> weights (~600MB) download automatically from HuggingFace. Without internet
-> access or those packages installed, the app automatically uses the
-> offline heuristic vision backend instead — no configuration needed.
+---
 
-## Running tests
+## 🧪 Running Automated Tests
 
 ```bash
 cd backend
-pytest -v
+venv\Scripts\pytest -v
 ```
-
-## Environment variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ANTHROPIC_API_KEY` | No | Enables Gen AI style report generation via Claude. Without it, a clearly-labeled rule-based report is returned instead. |
-
-## Possible extensions
-
-- Fine-tune a garment classifier on a labeled fashion dataset (e.g. DeepFashion) instead of relying purely on zero-shot CLIP
-- Add a "wardrobe" mode: analyze multiple items and suggest full outfit combinations
-- Persist analysis history per user with a database layer
-- Add outfit similarity search (find visually similar looks) using CLIP image embeddings
