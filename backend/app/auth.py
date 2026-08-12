@@ -8,10 +8,16 @@ from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from app.db import get_db
 from app.models import User
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret-key-outfit-style-advisor-2026")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("JWT_SECRET_KEY environment variable must be set")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
