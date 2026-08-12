@@ -29,7 +29,7 @@ export default function App() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
 
   // Calculate dynamic accent color from extracted outfit palette or hover
-  const primaryColorHex = result?.dominant_colors?.[0]?.hex || '#D4AF37'
+  const primaryColorHex = result?.dominant_colors?.[0]?.hex || '#2563EB'
   const effectiveAccent = hoveredColor || primaryColorHex
 
   // Apply dynamic accent CSS variable to :root
@@ -139,27 +139,27 @@ export default function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-canvas text-paper pb-16 transition-colors duration-300">
+    <div className="min-h-screen bg-[#F8F9FA] text-slate-900 pb-16 transition-colors duration-300">
       {/* Top Navigation */}
-      <header className="border-b border-border bg-surface/80 backdrop-blur sticky top-0 z-40">
+      <header className="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-xs">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-surface-elevated border border-border p-2.5 text-dynamic-accent shadow-md transition-colors duration-300">
+            <div className="rounded-xl bg-slate-100 border border-slate-200 p-2.5 text-dynamic-accent shadow-xs transition-colors duration-300">
               <Shirt size={22} />
             </div>
             <div>
-              <h1 className="font-display text-xl text-paper font-bold tracking-tight flex items-center gap-2">
+              <h1 className="font-display text-xl text-slate-900 font-bold tracking-tight flex items-center gap-2">
                 Outfit Style Advisor
               </h1>
-              <p className="text-xs text-muted font-mono">Classical Computer Vision & Fashion Rule Matrix Engine</p>
+              <p className="text-xs text-slate-500 font-mono">Classical Computer Vision & Fashion Rule Matrix Engine</p>
             </div>
           </div>
 
           {/* Right Action Bar */}
           <div className="flex items-center gap-3">
             {backendHealth && (
-              <div className="hidden lg:flex items-center gap-2 rounded-full bg-surface-elevated border border-border px-3 py-1 text-xs text-paper font-mono">
-                <CheckCircle2 size={13} className="text-emerald-400" />
+              <div className="hidden lg:flex items-center gap-2 rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-xs text-slate-700 font-mono">
+                <CheckCircle2 size={13} className="text-emerald-600" />
                 <span>Engine: <strong className="text-dynamic-accent font-semibold">{backendHealth.vision_backend}</strong></span>
               </div>
             )}
@@ -168,19 +168,19 @@ export default function App() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsHistoryOpen(true)}
-                  className="rounded-xl border border-border bg-surface-elevated px-3 py-2 text-xs font-semibold text-paper flex items-center gap-1.5 hover:border-dynamic-accent transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
+                  className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 flex items-center gap-1.5 hover:border-dynamic-accent transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
                 >
                   <History size={15} className="text-dynamic-accent" />
                   <span className="hidden sm:inline">Saved History</span>
                 </button>
 
-                <div className="flex items-center gap-2 rounded-xl bg-surface-elevated border border-border px-3 py-1.5 text-xs text-paper">
+                <div className="flex items-center gap-2 rounded-xl bg-slate-100 border border-slate-200 px-3 py-1.5 text-xs text-slate-800">
                   <User size={14} className="text-dynamic-accent" />
                   <span className="font-semibold">{user.full_name || user.email}</span>
                   <button
                     onClick={handleLogout}
                     title="Sign Out"
-                    className="ml-1 text-muted hover:text-red-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 rounded"
+                    className="ml-1 text-slate-400 hover:text-red-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded"
                   >
                     <LogOut size={14} />
                   </button>
@@ -189,7 +189,7 @@ export default function App() {
             ) : (
               <button
                 onClick={() => setIsAuthOpen(true)}
-                className="rounded-xl bg-dynamic-accent text-canvas px-4 py-2 text-xs font-bold flex items-center gap-2 hover:opacity-90 transition shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:ring-dynamic-accent"
+                className="rounded-xl bg-slate-900 text-white hover:bg-slate-800 px-4 py-2 text-xs font-bold flex items-center gap-2 transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-900"
               >
                 <LogIn size={15} />
                 <span>Sign In / Register</span>
@@ -216,21 +216,21 @@ export default function App() {
             <button
               onClick={() => handleAnalyze()}
               disabled={!file || loading}
-              className="w-full rounded-xl bg-dynamic-accent text-canvas font-bold py-3.5 flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-40 hover:opacity-90 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:ring-dynamic-accent"
+              className="w-full rounded-xl bg-slate-900 text-white font-bold py-3.5 flex items-center justify-center gap-2 transition-all shadow-sm disabled:opacity-40 hover:bg-slate-800 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-900"
             >
               {loading ? (
                 <>
-                  <Loader2 size={18} className="animate-spin" /> Extracting Swatches & Matching Rules...
+                  <Loader2 size={18} className="animate-spin text-dynamic-accent" /> Extracting Swatches & Matching Rules...
                 </>
               ) : (
                 <>
-                  <Sparkles size={18} /> Analyze Outfit & Next Styles
+                  <Sparkles size={18} className="text-dynamic-accent" /> Analyze Outfit & Next Styles
                 </>
               )}
             </button>
 
             {error && (
-              <div className="flex items-start gap-2 rounded-xl bg-red-950/40 border border-red-800/60 p-4 text-xs text-red-300">
+              <div className="flex items-start gap-2 rounded-xl bg-red-50 border border-red-200 p-4 text-xs text-red-700">
                 <AlertCircle size={16} className="mt-0.5 shrink-0" />
                 {error}
               </div>
@@ -240,18 +240,18 @@ export default function App() {
           </section>
 
           {/* Right Column: Style Report & Next Style Generator (7 cols) */}
-          <section className="lg:col-span-7 bg-surface rounded-2xl border border-border p-6 sm:p-8 shadow-xl relative overflow-hidden">
+          <section className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs relative overflow-hidden">
             {result ? (
               <StyleReport result={result} onHoverColor={setHoveredColor} />
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-center text-muted gap-3 py-24">
-                <div className="rounded-full bg-surface-elevated p-4 border border-border text-dynamic-accent">
+              <div className="h-full flex flex-col items-center justify-center text-center text-slate-500 gap-3 py-24">
+                <div className="rounded-full bg-slate-100 p-4 border border-slate-200 text-dynamic-accent">
                   <Shirt size={36} />
                 </div>
-                <p className="font-display tracking-wider uppercase text-xs font-semibold text-paper">
+                <p className="font-display tracking-wider uppercase text-xs font-semibold text-slate-900">
                   No Outfit Analyzed Yet
                 </p>
-                <p className="text-xs text-muted-dark max-w-sm leading-relaxed">
+                <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
                   Select a preset from the canvas bar above or drop an outfit photo to extract dominant RGB swatches and generate structured fashion rule recommendations.
                 </p>
               </div>

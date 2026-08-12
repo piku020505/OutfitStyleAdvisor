@@ -3,31 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --accent-dynamic: #D4AF37;
-  --accent-dynamic-alpha: rgba(212, 175, 55, 0.15);
+  --accent-dynamic: #2563EB;
+  --accent-dynamic-alpha: rgba(37, 99, 235, 0.12);
 }
 
 body {
-  background-color: #12110F;
-  color: #F5F3EF;
+  background-color: #F8F9FA;
+  color: #0F172A;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom scrollbar for horizontal carousel & drawers */
+/* Custom light scrollbars */
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #1C1A17;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #38342D;
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6B6862;
+  background: #94A3B8;
 }
 
 .no-scrollbar::-webkit-scrollbar {

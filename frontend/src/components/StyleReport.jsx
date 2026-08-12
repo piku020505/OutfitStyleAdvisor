@@ -3,7 +3,7 @@ import NextOutfitStyleSection from './NextOutfitStyleSection.jsx'
 
 function Tag({ children }) {
   return (
-    <span className="inline-block rounded-full bg-surface-elevated border border-border px-3 py-1 text-xs font-mono font-medium text-paper capitalize">
+    <span className="inline-block rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-xs font-mono font-semibold text-slate-800 capitalize">
       {children}
     </span>
   )
@@ -18,7 +18,7 @@ export default function StyleReport({ result, onHoverColor }) {
       {/* Signature Element: Load-Bearing Pinned Palette Strip */}
       {dominant_colors && dominant_colors.length > 0 && (
         <div className="relative group">
-          <div className="flex h-2.5 w-full overflow-hidden rounded-full border border-border/80 bg-surface-elevated animate-swatch-reveal">
+          <div className="flex h-2.5 w-full overflow-hidden rounded-full border border-slate-200 bg-slate-100 shadow-inner animate-swatch-reveal">
             {dominant_colors.map((c, idx) => (
               <div
                 key={c.hex + idx}
@@ -28,12 +28,12 @@ export default function StyleReport({ result, onHoverColor }) {
                   width: `${Math.max(c.weight * 100, 8)}%`,
                   backgroundColor: c.hex,
                 }}
-                className="h-full cursor-pointer hover:brightness-125 transition-all duration-150"
+                className="h-full cursor-pointer hover:brightness-110 transition-all duration-150"
                 title={`Hover to tint UI with ${c.name} (${c.hex} · ${Math.round(c.weight * 100)}%)`}
               />
             ))}
           </div>
-          <div className="flex items-center justify-between text-[10px] text-muted-dark font-mono mt-1 px-0.5">
+          <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono mt-1 px-0.5">
             <span>EXTRACTED PALETTE STRIP</span>
             <span>HOVER SWATCH TO TINT UI</span>
           </div>
@@ -44,11 +44,11 @@ export default function StyleReport({ result, onHoverColor }) {
       <div>
         <div className="flex items-center gap-2 text-dynamic-accent mb-1.5">
           <Sparkles size={16} />
-          <span className="font-display tracking-wider uppercase text-xs font-semibold">
+          <span className="font-display tracking-wider uppercase text-xs font-bold">
             Outfit Styling Report
           </span>
         </div>
-        <h2 className="font-display text-2xl text-paper leading-snug font-bold">
+        <h2 className="font-display text-2xl text-slate-900 leading-snug font-bold">
           {style_report.headline}
         </h2>
       </div>
@@ -62,16 +62,16 @@ export default function StyleReport({ result, onHoverColor }) {
       </div>
 
       {/* Analysis text */}
-      <p className="text-paper/85 leading-relaxed text-sm">{style_report.analysis}</p>
+      <p className="text-slate-700 leading-relaxed text-sm font-normal">{style_report.analysis}</p>
 
       {/* Best Occasions */}
       <div>
-        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-semibold text-muted mb-2.5">
+        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-bold text-slate-500 mb-2.5">
           <MapPin size={14} className="text-dynamic-accent" /> Best Occasions
         </h3>
         <ul className="space-y-2">
           {style_report.occasions.map((o) => (
-            <li key={o} className="text-sm text-paper/80 flex items-start gap-2.5">
+            <li key={o} className="text-sm text-slate-800 flex items-start gap-2.5">
               <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-dynamic-accent shrink-0" />
               {o}
             </li>
@@ -81,12 +81,12 @@ export default function StyleReport({ result, onHoverColor }) {
 
       {/* Pairing Suggestions */}
       <div>
-        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-semibold text-muted mb-2.5">
+        <h3 className="flex items-center gap-2 font-display tracking-wider uppercase text-xs font-bold text-slate-500 mb-2.5">
           <Shuffle size={14} className="text-dynamic-accent" /> Key Styling & Pairing Rules
         </h3>
         <ul className="space-y-2">
           {style_report.pairing_suggestions.map((p) => (
-            <li key={p} className="text-sm text-paper/80 flex items-start gap-2.5">
+            <li key={p} className="text-sm text-slate-800 flex items-start gap-2.5">
               <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-dynamic-accent shrink-0" />
               {p}
             </li>
@@ -95,17 +95,17 @@ export default function StyleReport({ result, onHoverColor }) {
       </div>
 
       {/* Color Tip Box */}
-      <div className="rounded-xl bg-surface-elevated border-l-4 border-dynamic-accent border-r border-t border-b border-border p-4">
-        <h3 className="flex items-center gap-2 text-xs font-semibold text-dynamic-accent uppercase tracking-wider mb-1">
+      <div className="rounded-xl bg-slate-50 border-l-4 border-dynamic-accent border-r border-t border-b border-slate-200 p-4">
+        <h3 className="flex items-center gap-2 text-xs font-bold text-dynamic-accent uppercase tracking-wider mb-1">
           <Palette size={14} /> Color Harmony Guidance
         </h3>
-        <p className="text-sm text-paper/80 leading-relaxed">{style_report.color_tip}</p>
+        <p className="text-sm text-slate-700 leading-relaxed">{style_report.color_tip}</p>
       </div>
 
       {/* Next Outfit Style Variations */}
       <NextOutfitStyleSection nextStyles={style_report.next_outfit_styles} onHoverColor={onHoverColor} />
 
-      <p className="text-[11px] text-muted-dark pt-3 border-t border-border font-mono">
+      <p className="text-[11px] text-slate-400 pt-3 border-t border-slate-200 font-mono">
         Analysis engine: {vision_backend} · Report generated by: {style_report.generated_by}
       </p>
     </div>

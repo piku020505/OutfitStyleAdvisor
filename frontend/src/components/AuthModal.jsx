@@ -47,24 +47,24 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md bg-surface rounded-2xl border border-border p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="relative w-full max-w-md bg-white rounded-2xl border border-slate-200 p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in duration-200">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-full p-1 text-muted hover:bg-surface-elevated hover:text-paper transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
+          className="absolute top-4 right-4 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
         >
           <X size={20} />
         </button>
 
         {/* Tab Switcher */}
-        <div className="flex rounded-xl bg-surface-elevated p-1 border border-border">
+        <div className="flex rounded-xl bg-slate-100 p-1 border border-slate-200">
           <button
             onClick={() => {
               setIsRegister(false)
               setError(null)
             }}
             className={`flex-1 rounded-lg py-2 text-xs font-semibold flex items-center justify-center gap-1.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent ${
-              !isRegister ? 'bg-surface-card text-paper border border-border shadow-sm' : 'text-muted hover:text-paper'
+              !isRegister ? 'bg-white text-slate-900 border border-slate-200 shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <LogIn size={14} className={!isRegister ? 'text-dynamic-accent' : ''} /> Sign In
@@ -75,7 +75,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
               setError(null)
             }}
             className={`flex-1 rounded-lg py-2 text-xs font-semibold flex items-center justify-center gap-1.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent ${
-              isRegister ? 'bg-surface-card text-paper border border-border shadow-sm' : 'text-muted hover:text-paper'
+              isRegister ? 'bg-white text-slate-900 border border-slate-200 shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <UserPlus size={14} className={isRegister ? 'text-dynamic-accent' : ''} /> Create Account
@@ -83,10 +83,10 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
         </div>
 
         <div className="text-center space-y-1">
-          <h3 className="font-display text-xl font-bold text-paper">
+          <h3 className="font-display text-xl font-bold text-slate-900">
             {isRegister ? 'Create User Session' : 'Authenticate Session'}
           </h3>
-          <p className="text-xs text-muted">
+          <p className="text-xs text-slate-500">
             {isRegister
               ? 'Save your outfit style history and fashion reports.'
               : 'Sign in to access your saved outfit style history.'}
@@ -94,7 +94,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 rounded-xl bg-red-950/40 border border-red-800/60 p-3 text-xs text-red-300">
+          <div className="flex items-center gap-2 rounded-xl bg-red-50 border border-red-200 p-3 text-xs text-red-700">
             <AlertCircle size={15} className="shrink-0" />
             {error}
           </div>
@@ -103,52 +103,52 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {isRegister && (
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-muted font-mono">
+              <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 font-mono">
                 Full Name
               </label>
               <div className="relative">
-                <UserIcon size={16} className="absolute left-3.5 top-3 text-muted-dark" />
+                <UserIcon size={16} className="absolute left-3.5 top-3 text-slate-400" />
                 <input
                   type="text"
                   placeholder="e.g. Alex Morgan"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-xl bg-canvas border border-border py-2.5 pl-10 pr-4 text-xs text-paper placeholder-muted-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 py-2.5 pl-10 pr-4 text-xs text-slate-900 placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
                 />
               </div>
             </div>
           )}
 
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted font-mono">
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 font-mono">
               Email Address
             </label>
             <div className="relative">
-              <Mail size={16} className="absolute left-3.5 top-3 text-muted-dark" />
+              <Mail size={16} className="absolute left-3.5 top-3 text-slate-400" />
               <input
                 type="email"
                 required
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl bg-canvas border border-border py-2.5 pl-10 pr-4 text-xs text-paper placeholder-muted-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 py-2.5 pl-10 pr-4 text-xs text-slate-900 placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
               />
             </div>
           </div>
 
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold uppercase tracking-wider text-muted font-mono">
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 font-mono">
               Password
             </label>
             <div className="relative">
-              <Lock size={16} className="absolute left-3.5 top-3 text-muted-dark" />
+              <Lock size={16} className="absolute left-3.5 top-3 text-slate-400" />
               <input
                 type="password"
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl bg-canvas border border-border py-2.5 pl-10 pr-4 text-xs text-paper placeholder-muted-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 py-2.5 pl-10 pr-4 text-xs text-slate-900 placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent focus-visible:border-dynamic-accent transition"
               />
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-dynamic-accent text-canvas font-bold py-3 text-xs flex items-center justify-center gap-2 hover:opacity-90 transition disabled:opacity-50 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:ring-dynamic-accent"
+            className="w-full rounded-xl bg-dynamic-accent text-white font-bold py-3 text-xs flex items-center justify-center gap-2 hover:opacity-90 transition disabled:opacity-50 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-dynamic-accent"
           >
             {loading ? (
               <>

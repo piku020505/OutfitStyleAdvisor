@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: '#12110F',
-        surface: '#1C1A17',
-        'surface-elevated': '#24221E',
-        'surface-card': '#2A2822',
-        border: '#38342D',
-        'border-subtle': '#2A2822',
-        paper: '#F5F3EF',
-        muted: '#9E9B93',
-        'muted-dark': '#6B6862',
+        canvas: '#F8F9FA',
+        surface: '#FFFFFF',
+        'surface-elevated': '#F1F5F9',
+        'surface-card': '#FFFFFF',
+        border: '#E2E8F0',
+        'border-subtle': '#CBD5E1',
+        paper: '#0F172A',
+        muted: '#64748B',
+        'muted-dark': '#475569',
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'sans-serif'],

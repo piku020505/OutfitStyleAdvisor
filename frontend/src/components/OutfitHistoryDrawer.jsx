@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, History, Trash2, Shirt, Loader2, Sparkles } from 'lucide-react'
+import { X, History, Trash2, Shirt, Loader2 } from 'lucide-react'
 
 const API_BASE = 'http://localhost:8000/api'
 
@@ -52,17 +52,17 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end">
-      <div className="relative w-full max-w-full sm:max-w-md bg-surface border-l border-border h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex justify-end">
+      <div className="relative w-full max-w-full sm:max-w-md bg-white border-l border-slate-200 h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
         {/* Drawer Header */}
-        <div className="p-5 border-b border-border flex items-center justify-between bg-surface-elevated">
-          <div className="flex items-center gap-2 text-paper font-semibold font-display text-lg">
+        <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div className="flex items-center gap-2 text-slate-900 font-semibold font-display text-lg">
             <History size={20} className="text-dynamic-accent" />
             <span>Saved Outfit History</span>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-muted hover:bg-surface hover:text-paper transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
+            className="rounded-full p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-900 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
           >
             <X size={20} />
           </button>
@@ -71,19 +71,19 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-64 text-muted gap-2">
+            <div className="flex flex-col items-center justify-center h-64 text-slate-500 gap-2">
               <Loader2 size={24} className="animate-spin text-dynamic-accent" />
               <p className="text-xs font-mono">Fetching saved analyses...</p>
             </div>
           ) : error ? (
-            <div className="text-center py-10 text-red-400 text-xs">{error}</div>
+            <div className="text-center py-10 text-red-600 text-xs">{error}</div>
           ) : historyItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-center text-muted gap-3">
-              <div className="rounded-full bg-surface-elevated p-4 text-muted-dark border border-border">
+            <div className="flex flex-col items-center justify-center h-64 text-center text-slate-500 gap-3">
+              <div className="rounded-full bg-slate-100 p-4 text-slate-400 border border-slate-200">
                 <Shirt size={32} />
               </div>
-              <p className="text-sm font-semibold text-paper">No outfits analyzed yet</p>
-              <p className="text-xs text-muted-dark max-w-xs leading-relaxed">
+              <p className="text-sm font-semibold text-slate-900">No outfits analyzed yet</p>
+              <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
                 Upload an outfit photo or select a canvas preset to create and save your first styling report.
               </p>
             </div>
@@ -95,30 +95,30 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
                   onSelectHistoryItem(item)
                   onClose()
                 }}
-                className="group relative rounded-xl border border-border bg-surface-elevated p-4 hover:border-dynamic-accent hover:bg-surface-card transition cursor-pointer space-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
+                className="group relative rounded-xl border border-slate-200 bg-slate-50/50 p-4 hover:border-dynamic-accent hover:bg-white hover:shadow-sm transition cursor-pointer space-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dynamic-accent"
                 tabIndex={0}
                 role="button"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold tracking-wider uppercase bg-dynamic-accent/15 text-dynamic-accent px-2 py-0.5 rounded border border-dynamic-accent/20">
+                  <span className="text-[10px] font-bold tracking-wider uppercase bg-slate-200/80 text-slate-800 px-2 py-0.5 rounded border border-slate-300">
                     {item.style} · {item.garment_type}
                   </span>
-                  <span className="text-[10px] text-muted-dark font-mono">
+                  <span className="text-[10px] text-slate-400 font-mono">
                     {new Date(item.created_at).toLocaleDateString()}
                   </span>
                 </div>
 
-                <h4 className="text-sm font-semibold text-paper group-hover:text-dynamic-accent transition">
+                <h4 className="text-sm font-semibold text-slate-900 group-hover:text-dynamic-accent transition">
                   {item.style_report?.headline || `${item.style} ${item.garment_type}`}
                 </h4>
 
                 {/* Dominant Palette Swatches */}
-                <div className="flex items-center justify-between pt-2 border-t border-border/60">
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200">
                   <div className="flex items-center gap-1.5">
                     {item.dominant_colors?.map((c) => (
                       <span
                         key={c.hex}
-                        className="h-3.5 w-3.5 rounded-full border border-white/20"
+                        className="h-3.5 w-3.5 rounded-full border border-slate-300"
                         style={{ backgroundColor: c.hex }}
                         title={`${c.name} (${c.hex})`}
                       />
@@ -129,7 +129,7 @@ export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHi
                     onClick={(e) => handleDelete(item.id, e)}
                     disabled={deletingId === item.id}
                     title="Delete Saved Outfit"
-                    className="text-muted-dark hover:text-red-400 p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 rounded"
+                    className="text-slate-400 hover:text-red-600 p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded"
                   >
                     {deletingId === item.id ? (
                       <Loader2 size={14} className="animate-spin" />
