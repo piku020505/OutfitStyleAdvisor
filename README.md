@@ -1,11 +1,13 @@
 <div align="center">
 
-# 👗 Outfit Style Advisor — Manual Outfit Styling & Color Advisor
+# 👗 Outfit Style Advisor — Classical CV & Handcrafted Fashion Advisor
 
 ### *Deterministic Image Analysis, K-Means Color Theory & Handcrafted Fashion Recommendations*
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.10-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.5-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0_Async-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://sqlalchemy.org)
@@ -13,9 +15,9 @@
 [![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/piku020505/OutfitStyleAdvisor/actions)
 
 <p align="center">
+  <a href="#-architecture--pipeline-design">Pipeline & Architecture</a> •
   <a href="#-key-features">Key Features</a> •
-  <a href="#-application-showcase">Application Showcase</a> •
-  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-application-showcase">Showcase</a> •
   <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-getting-started">Getting Started</a> •
   <a href="#-api-documentation">API Docs</a>
@@ -24,6 +26,11 @@
 ---
 
 </div>
+
+> [!NOTE]
+> **Deterministic & Lightweight Architecture**: This application runs a **100% deterministic classical computer vision and heuristic fashion rule pipeline** (OpenCV edge density/aspect ratio heuristics, Scikit-Learn K-Means color clustering, and a handcrafted fashion rule engine). It requires **no external LLM API keys** (e.g. Anthropic/Claude) and **no heavy PyTorch/Transformers dependencies**, ensuring sub-10ms response times, zero API costs, and full offline execution capability.
+
+---
 
 ## 📸 Application Showcase
 
@@ -56,8 +63,8 @@
 
 ## 🌟 Key Features
 
-- 📐 **Manual Feature Classification Engine**: Classical image processing heuristics (aspect ratio geometry, Sobel edge density metrics, and color variance histograms) for fast, lightweight garment and pattern tagging.
-- 🎨 **K-Means Color Theory Processor**: Uses Scikit-Learn k-means clustering over RGB pixel arrays to compute dominant color distributions and map them to curated fashion palettes.
+- 📐 **Classical Feature Classification Engine**: Classical image processing heuristics (aspect ratio geometry, Sobel edge density metrics, and color variance histograms via OpenCV & Pillow) for fast, lightweight garment and pattern tagging.
+- 🎨 **K-Means Color Theory Processor**: Scikit-Learn k-means clustering over RGB pixel arrays to compute dominant color distributions and map them to curated fashion palettes.
 - 👗 **Handcrafted Fashion Recommendation Engine**: Custom fashion rule matrix generating structured styling reports strictly grounded in detected garment attributes.
 - ⏭️ **"What to Wear Next" Evolution Engine**: Generates 4 tailored outfit transition variations (*Evening Glamour*, *Urban Streetwear*, *Monochrome Minimalist*, *Resort Warm-Toned*).
 - 🔒 **Enterprise JWT Authentication**: Full user signup & login flow using `passlib` bcrypt hashing and signed JWT bearer tokens (`/api/auth/register`, `/api/auth/login`, `/api/auth/me`).
@@ -69,45 +76,45 @@
 
 ---
 
-## 🧠 System Architecture
+## 🧠 Architecture & Pipeline Design
 
 ```
                        +-----------------------------------+
                        |        Outfit Photo / Preset      |
                        +-----------------------------------+
-                                         |
-                                         v
-               +---------------------------------------------------+
-               |               FastAPI Async REST API              |
-               +---------------------------------------------------+
-                    |                                  |
-                    v                                  v
+                                          |
+                                          v
+                +---------------------------------------------------+
+                |               FastAPI Async REST API              |
+                +---------------------------------------------------+
+                     |                                  |
+                     v                                  v
 +------------------------------------+   +------------------------------------+
-|     Feature Classifier Layer       |   |       Color Analyzer Engine        |
-|  - Manual Feature Matrix (OpenCV)  |   |  - Scikit-Learn K-Means (RGB)      |
-|  - Aspect Ratio & Edge Density     |   |  - Curated Palette Mapping         |
+|  Manual Feature Classifier (CV)    |   |     K-Means Color Analyzer         |
+|  - Aspect Ratio & Geometry         |   |  - Scikit-Learn RGB Clustering     |
+|  - Sobel Edge Density (OpenCV)     |   |  - Named Color & Palette Mapping   |
 +------------------------------------+   +------------------------------------+
-                    |                                  |
-                    +----------------+-----------------+
-                                     |
-                                     v
-                       +---------------------------+
-                       |  Fashion Styling Engine   |
-                       |  - Rule Analytics Matrix  |
-                       |  - Attribute Grounding    |
-                       |  - Next Style Evolution   |
-                       +---------------------------+
-                                     |
-                                     v
-                       +---------------------------+
-                       |    SQLAlchemy 2.0 Async   |
-                       | (SQLite / PostgreSQL DB)  |
-                       +---------------------------+
-                                     |
-                                     v
-                       +---------------------------+
-                       |  Vite React 18 Dashboard  |
-                       +---------------------------+
+                     |                                  |
+                     +----------------+-----------------+
+                                      |
+                                      v
+                        +---------------------------+
+                        |  Fashion Styling Engine   |
+                        |  - Handcrafted Rule Matrix|
+                        |  - Occasion Grounding     |
+                        |  - Next Style Evolution   |
+                        +---------------------------+
+                                      |
+                                      v
+                        +---------------------------+
+                        |    SQLAlchemy 2.0 Async   |
+                        | (SQLite / PostgreSQL DB)  |
+                        +---------------------------+
+                                      |
+                                      v
+                        +---------------------------+
+                        |  Vite React 18 Dashboard  |
+                        +---------------------------+
 ```
 
 ---
@@ -122,7 +129,7 @@
 | **Authentication** | OAuth2 Bearer, PyJWT, Passlib (`bcrypt`), Email-Validator |
 | **Image Processing** | Pillow, OpenCV (`opencv-python-headless`), NumPy |
 | **Color Processing** | Scikit-Learn K-Means Clustering, NumPy, Webcolors |
-| **Fashion Recommendation** | Handcrafted Fashion Rule Engine & Palette Matching Matrix |
+| **Fashion Recommendation** | Handcrafted Fashion Rule Engine (`app/stylist.py`) & Palette Matrix |
 | **Testing** | Pytest, FastAPI TestClient |
 | **DevOps & Cloud** | Docker, Docker Compose, GitHub Actions CI/CD, Render Spec |
 
