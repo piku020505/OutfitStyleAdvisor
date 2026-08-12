@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import io
 import logging
+import os
 from contextlib import asynccontextmanager
 from typing import Optional
 
@@ -46,9 +47,13 @@ app = FastAPI(
 )
 
 
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
+allowed_origins = [o.strip() for o in allowed_origins_env.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=True if "*" not in allowed_origins else False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

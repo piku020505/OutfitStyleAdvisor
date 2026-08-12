@@ -30,6 +30,9 @@
 > [!NOTE]
 > **Deterministic & Lightweight Architecture**: This application runs a **100% deterministic classical computer vision and heuristic fashion rule pipeline** (OpenCV edge density/aspect ratio heuristics, Scikit-Learn K-Means color clustering, and a handcrafted fashion rule engine). It requires **no external LLM API keys** (e.g. Anthropic/Claude) and **no heavy PyTorch/Transformers dependencies**, ensuring sub-10ms response times, zero API costs, and full offline execution capability.
 
+> [!TIP]
+> **CORS & Environment Note**: CORS middleware is open (`*`) for local demo and preview convenience; production deployments restrict origins to explicit frontend domains via the `ALLOWED_ORIGINS` environment variable.
+
 ---
 
 ## 📸 Application Showcase
