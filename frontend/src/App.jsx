@@ -8,7 +8,7 @@ import AuthModal from './components/AuthModal.jsx'
 import OutfitHistoryDrawer from './components/OutfitHistoryDrawer.jsx'
 import { SAMPLE_OUTFITS, generateOutfitFile } from './utils/sampleGenerator.js'
 
-const API_BASE = 'http://localhost:8000/api'
+import { API_BASE } from './config.js'
 
 export default function App() {
   const [file, setFile] = useState(null)

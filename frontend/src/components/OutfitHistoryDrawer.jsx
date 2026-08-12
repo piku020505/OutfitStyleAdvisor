@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { X, History, Trash2, Shirt, Loader2 } from 'lucide-react'
 
-const API_BASE = 'http://localhost:8000/api'
+import { API_BASE } from '../config.js'
 
 export default function OutfitHistoryDrawer({ isOpen, onClose, token, onSelectHistoryItem }) {
   const [historyItems, setHistoryItems] = useState([])

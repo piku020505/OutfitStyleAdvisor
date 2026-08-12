@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { X, Lock, Mail, User as UserIcon, LogIn, UserPlus, AlertCircle, Loader2 } from 'lucide-react'
 
-const API_BASE = 'http://localhost:8000/api'
+import { API_BASE } from '../config.js'
 
 export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
   const [isRegister, setIsRegister] = useState(false)
